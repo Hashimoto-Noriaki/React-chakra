@@ -1,10 +1,17 @@
 import { Box,Flex,Heading,Link, useDisclosure } from "@chakra-ui/react";
-import { memo,VFC } from "react"
+import { memo,VFC,useCallback } from "react"
 import { MenuIconButton } from "../../atoms/button/MenuIconButton";
 import { MenuDrawer } from "../../molecules/MenuDrawer";
+import { useNavigate } from "react-router-dom";
 
 export const Header: VFC = memo(() => {
     const {isOpen,onOpen,onClose} = useDisclosure();
+    const navigate = useNavigate();
+
+    const onClickHome = useCallback(() => navigate("/home"), [navigate]);
+    const onClickUserManagement = useCallback(() => navigate("/user_management"),[navigate]);
+    const onClickSetting = useCallback(() => navigate("/setting"), [navigate]);
+
     return (
         <>
         <Flex
@@ -21,7 +28,7 @@ export const Header: VFC = memo(() => {
             zIndex={1} // ヘッダーが常に最前面に表示されるように
         >
 
-        <Heading as = "h1" fontSize={{ base: "md", md: "lg" }}> 
+        <Heading as = "h1" fontSize={{ base: "md", md: "lg" }} onClick={onClickHome}> 
             ユーザー管理アプリ
         </Heading>
         <Flex 
@@ -31,13 +38,19 @@ export const Header: VFC = memo(() => {
             display={{ base:"none",md:"flex" }}
             >
             <Box pr={4}>
-                <Link>ユーザー一覧</Link>      
+                <Link  onClick={onClickUserManagement}>ユーザー一覧</Link>      
             </Box>
-            <Link>設定</Link>
+            <Link onClick={onClickSetting}>設定</Link>
         </Flex>
         <MenuIconButton onOpen={onOpen}/>
     </Flex>
-    <MenuDrawer onClose={onClose} isOpen={isOpen}/>
+    <MenuDrawer 
+        onClose={onClose} 
+        isOpen={isOpen} 
+        onClickHome={onClickHome} 
+        onClickUserManagement={onClickUserManagement} 
+        onClickSetting={onClickSetting}
+    />
     </>
     )
 });
