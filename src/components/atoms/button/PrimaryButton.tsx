@@ -3,15 +3,17 @@ import { Button } from "@chakra-ui/react";
 
 type Props = {
     children: ReactNode;
+    onClick: ()=> void;
 };
 
 export const PrimaryButton: VFC<Props> = (props) => {
-    const { children } = props;  // デフォルトで false を設定
+    const { children,onClick } = props;  // デフォルトで false を設定
     return (
         <Button
             bg="teal.400"
             color="white"
             _hover={{ opacity: 0.8 }}
+            onClick={onClick}
         >
             {children}
         </Button>
