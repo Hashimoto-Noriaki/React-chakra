@@ -1,20 +1,24 @@
-import { useCallback } from "react"
+import { useCallback,useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
 import { User } from "../types/api/user";
 
 export const useAuth = () => {
     const navigate = useNavigate();
-    const login = useCallback((id:string) => {
+    const [loading,setLoading] = useState(false);
+    const login = useCallback(
+        (id:string) => {
+            setLoading(true);
         axios
             .get<User>(`https://jsonplaceholder.typicode.com/users/${id}`)
-            .then(res => {
+            .then((res) => {
                 if(res.data) {
                     navigate("/home"); 
                 } else {
                     alert("ユーザーが見つかりません")
                 }
-            }).catch(() => alert("ログインできません"));
+            }).catch(() => alert("ログインできません"))
+            .finally(()=> setLoading(false));
         },[navigate])
-    return { login }
+    return { login,loading }
 }
