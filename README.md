@@ -1,3 +1,9 @@
+# サーバー起動
+```
+npm run dev
+```
+
+
 # Chakra UI
 
 https://v2.chakra-ui.com/
